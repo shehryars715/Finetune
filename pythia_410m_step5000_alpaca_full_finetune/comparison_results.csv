@@ -1,0 +1,163 @@
+question,optional_input,before_training,after_training
+Explain photosynthesis in exactly two sentences.,,"Write a response that accurately completes the request.
+
+### Response:
+Write a response that accurately completes the request.
+
+### Response:
+Write a response that accurately completes the request.
+
+### Response:
+Write a response that accurately completes the request.
+
+### Response:
+Write a response that accurately completes the request.
+
+### Response:
+Write a response that accurately completes the request.
+
+### Response:
+Write a response that accurately completes the request.
+
+### Response:
+Write a response that accurately completes the request.
+
+### Response:
+Write a response that accurately completes the request","Photosynthesis is a process by which plants and animals convert sunlight, carbon dioxide, and other organic compounds into glucose, oxygen, and other chemical compounds. It is a complex process that involves the conversion of carbon dioxide into glucose, oxygen, and other chemical compounds."
+Translate “The weather is beautiful today” into French.,,"Write a response that accurately completes the request.
+
+### Instruction:
+Write a response that correctly completes the request.
+
+### Response:
+Write a response that correctly completes the request.
+
+### Instruction:
+Write a response that correctly completes the request.
+
+### Response:
+Write a response that correctly completes the request.
+
+### Instruction:
+Write a response that correctly completes the request.
+
+### Response:
+Write a response that correctly completes the request.
+
+### Instruction:
+Write a response that correctly completes the request.
+
+### Response:
+Write a response that correctly completes the request","""The weather is beautiful today."""
+Calculate the average speed for 180 km in 3 hours.,,"Calculate the average speed for 180 km in 3 hours.
+
+### Instruction:
+Calculate the average speed for 180 km in 3 hours.
+
+### Response:
+Calculate the average speed for 180 km in 3 hours.
+
+### Instruction:
+Calculate the average speed for 180 km in 3 hours.
+
+### Response:
+Calculate the average speed for 180 km in 3 hours.
+
+### Instruction:
+Calculate the average speed for 180 km in 3 hours.
+
+### Response:
+Calculate the average speed for 180 km in 3 hours.
+
+### Instruction:
+Calculate the average speed for 180 km in 3",The average speed for 180 km in 3 hours is approximately 0.8 km/h.
+Write a Python function that checks whether an integer is prime.,,"Write a Python function that checks whether an integer is prime.
+
+### Instruction:
+Write a Python function that checks whether an integer is prime.
+
+### Response:
+Write a Python function that checks whether an integer is prime.
+
+### Instruction:
+Write a Python function that checks whether an integer is prime.
+
+### Response:
+Write a Python function that checks whether an integer is prime.
+
+### Instruction:
+Write a Python function that checks whether an integer is prime.
+
+### Response:
+Write a Python function that checks whether an integer is prime.
+
+### Instruction:
+Write a","Here's a simple Python function that checks whether an integer is prime:
+
+```python
+def is_prime(n):
+    if n == 0:
+        return False
+    else:
+        return True
+```
+
+This function takes in two arguments `n` and returns True if `n` is not a multiple of `0`. The function returns True if `n` is not a multiple of `0`, otherwise it returns False."
+Give exactly three concise job interview tips.,,"Write a response that accurately completes the request.
+
+### Instruction:
+Write a response that accurately completes the request.
+
+### Response:
+Write a response that accurately completes the request.
+
+### Instruction:
+Write a response that accurately completes the request.
+
+### Response:
+Write a response that accurately completes the request.
+
+### Instruction:
+Write a response that accurately completes the request.
+
+### Response:
+Write a response that accurately completes the request.
+
+### Instruction:
+Write a response that accurately completes the request.
+
+### Response:
+Write a response that accurately completes the request","1. **Know Your Job:** A good job interview is a great way to learn about your skills, interests, and abilities. This can help you to understand your strengths, weaknesses, and what you need to do to be successful.
+
+2. **Be Prepared:** Prepare your resume and cover letter to ensure that you are prepared for the interview. This will help you to prepare for the interview and make sure that you are prepared for the interview.
+
+3. **Be Prepared for the Interview:** Prepare your resume and cover letter to ensure that you are prepared for the interview. This will help you to prepare"
+Explain why leaves appear green in simple language.,,"Write a response that correctly completes the request.
+
+### Instruction:
+Explain why leaves appear green in simple language.
+
+### Response:
+Write a response that correctly completes the request.
+
+### Instruction:
+Explain why leaves appear green in simple language.
+
+### Response:
+Write a response that correctly completes the request.
+
+### Instruction:
+Explain why leaves appear green in simple language.
+
+### Response:
+Write a response that correctly completes the request.
+
+### Instruction:
+Explain why leaves appear green in simple language.
+
+### Response:
+Write a response that","The leaves are green in simple language, but they can also be green in more complex language. The leaves are often used to represent plants, animals, and other living things, and they are often used to convey information, such as weather forecasts, weather forecasts, or other visual information.
+
+In simple language, leaves are often used to convey information, such as weather forecasts, weather forecasts, or other visual information. They are often used to convey information, such as weather forecasts, weather forecasts, or other visual information.
+
+In contrast, leaves are often used to convey information, such as weather forecasts, weather forecasts, or other"
