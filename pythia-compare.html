@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>base vs finetuned</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f6f7fb;
+    --surface: #ffffff;
+    --surface-muted: #f9fafb;
+    --border: #e1e6ef;
+    --border-strong: #b7c2d2;
+    --ink: #172033;
+    --ink-soft: #5f6b7c;
+    --ink-faint: #9aa6b7;
+    --base-accent: #172033;
+    --base-bg: #f8fafc;
+    --ft-accent: #172033;
+    --ft-bg: #f8fafc;
+    --danger: #b43b4a;
+    --danger-bg: #fff1f3;
+    --shadow: 0 18px 45px rgba(23, 32, 51, 0.08);
+    --font-display: 'Fraunces', serif;
+    --font-body: 'Inter', -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-body);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 56px 20px 80px;
+  }
+
+  header {
+    width: 100%;
+    max-width: 980px;
+    margin-bottom: 28px;
+    text-align: left;
+  }
+
+  h1 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(34px, 6vw, 56px);
+    letter-spacing: 0;
+    margin: 0;
+    color: var(--ink);
+  }
+
+  h1 .vs {
+    font-style: italic;
+    color: var(--ink-soft);
+    font-weight: 400;
+    padding: 0 10px;
+  }
+
+  .header-rule {
+    width: 72px;
+    height: 2px;
+    background: var(--ink);
+    margin: 18px 0 0;
+    border-radius: 2px;
+  }
+
+  main {
+    width: 100%;
+    max-width: 980px;
+  }
+
+  .prompt-field {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    margin-bottom: 22px;
+    padding: 18px;
+  }
+
+  textarea {
+    width: 100%;
+    min-height: 96px;
+    resize: vertical;
+    background: var(--surface-muted);
+    border: 1px solid var(--border);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 16px;
+    padding: 18px 20px;
+    border-radius: 8px;
+    line-height: 1.55;
+    transition: background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  textarea:focus {
+    outline: none;
+    background: var(--surface);
+    border-color: var(--ft-accent);
+    box-shadow: 0 0 0 4px rgba(37, 111, 104, 0.12);
+  }
+
+  textarea::placeholder { color: var(--ink-faint); }
+
+  .controls {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 16px;
+  }
+
+  .slider-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 40px;
+    padding: 0 12px;
+    background: var(--surface-muted);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 12px;
+    color: var(--ink-soft);
+  }
+
+  .slider-group input[type="range"] {
+    accent-color: var(--ft-accent);
+    width: 112px;
+  }
+
+  .slider-value {
+    color: var(--ink);
+    width: 34px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    text-align: right;
+  }
+
+  .btn {
+    margin-left: auto;
+    border: none;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 14px;
+    min-height: 40px;
+    padding: 0 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+  }
+
+  .btn.run {
+    background: var(--ink);
+    color: #ffffff;
+  }
+
+  .btn.run:hover { background: #253047; }
+  .btn.run:active { transform: scale(0.97); }
+
+  .btn.stop {
+    background: var(--danger-bg);
+    color: var(--danger);
+    border: 1px solid #f1bdc6;
+  }
+
+  .btn.stop:hover { border-color: #e99cac; }
+
+  .columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+  }
+
+  @media (max-width: 680px) {
+    body { padding: 34px 14px 56px; }
+
+    header { margin-bottom: 22px; }
+
+    .prompt-field { padding: 14px; }
+
+    .columns { grid-template-columns: 1fr; }
+
+    .btn {
+      flex: 1 1 100%;
+      margin-left: 0;
+    }
+
+    .slider-group {
+      flex: 1 1 220px;
+      justify-content: space-between;
+    }
+  }
+
+  .col {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 14px 34px rgba(23, 32, 51, 0.06);
+  }
+
+  .col-header {
+    padding: 16px 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .col.base .col-header { background: var(--base-bg); }
+  .col.finetuned .col-header { background: var(--ft-bg); }
+
+  .col-title {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 600;
+  }
+
+  .col.base .col-title,
+  .col.finetuned .col-title { color: var(--ink); }
+
+  .status {
+    flex: 0 0 auto;
+    margin-top: 2px;
+    font-size: 11px;
+    color: var(--ink-faint);
+    font-family: var(--font-mono);
+    text-align: right;
+    overflow-wrap: anywhere;
+  }
+
+  .status.error { color: var(--danger); }
+
+  .dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--ink-faint);
+    margin-right: 6px;
+    vertical-align: 1px;
+  }
+
+  .col.base .dot.pulse,
+  .col.finetuned .dot.pulse { background: var(--ink); animation: pulse 1s ease-in-out infinite; }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.25; }
+  }
+
+  .col-output {
+    padding: 20px;
+    min-height: 260px;
+    font-size: 15px;
+    line-height: 1.65;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+
+  .col-output.empty { color: var(--ink-faint); }
+
+  footer {
+    max-width: 980px;
+    width: 100%;
+    min-height: 18px;
+    margin-top: 16px;
+    font-size: 11px;
+    color: var(--ink-faint);
+    font-family: var(--font-mono);
+    text-align: right;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Base <span class="vs">vs</span> Finetuned</h1>
+  <div class="header-rule"></div>
+</header>
+
+<main>
+  <div class="prompt-field">
+    <textarea id="prompt" placeholder="Who are you?"></textarea>
+
+    <div class="controls">
+      <div class="slider-group">
+        <span>tokens</span>
+        <input type="range" id="maxTokens" min="16" max="400" step="8" value="150">
+        <span class="slider-value" id="maxTokensVal">150</span>
+      </div>
+      <div class="slider-group">
+        <span>temp</span>
+        <input type="range" id="temp" min="0.1" max="1.5" step="0.1" value="0.7">
+        <span class="slider-value" id="tempVal">0.7</span>
+      </div>
+      <button class="btn run" id="runBtn">Run both</button>
+      <button class="btn stop" id="stopBtn" style="display:none;">Stop</button>
+    </div>
+  </div>
+
+  <div class="columns">
+    <div class="col base">
+      <div class="col-header">
+        <div>
+          <div class="col-title">Base</div>
+        </div>
+        <span class="status" id="status-base"><span class="dot"></span>idle</span>
+      </div>
+      <div class="col-output empty" id="output-base">Waiting for a prompt.</div>
+    </div>
+
+    <div class="col finetuned">
+      <div class="col-header">
+        <div>
+          <div class="col-title">Finetuned</div>
+        </div>
+        <span class="status" id="status-finetuned"><span class="dot"></span>idle</span>
+      </div>
+      <div class="col-output empty" id="output-finetuned">Waiting for a prompt.</div>
+    </div>
+  </div>
+</main>
+
+<footer id="latency"></footer>
+
+<script>
+  const ENDPOINT = "https://shehryars715-llm.hf.space/generate-stream";
+  const API_KEY = ""; // set this if you enabled x-api-key auth on the backend
+
+  const promptInput = document.getElementById('prompt');
+  const maxTokens = document.getElementById('maxTokens');
+  const maxTokensVal = document.getElementById('maxTokensVal');
+  const temp = document.getElementById('temp');
+  const tempVal = document.getElementById('tempVal');
+  const runBtn = document.getElementById('runBtn');
+  const stopBtn = document.getElementById('stopBtn');
+  const latency = document.getElementById('latency');
+
+  let controllers = [];
+
+  maxTokens.addEventListener('input', () => maxTokensVal.textContent = maxTokens.value);
+  temp.addEventListener('input', () => tempVal.textContent = temp.value);
+
+  function buildAlpacaPrompt(question) {
+    return `### Instruction:\n${question}\n### Response:`;
+  }
+
+  function setStatus(key, text, mode) {
+    const el = document.getElementById(`status-${key}`);
+    el.className = 'status' + (mode === 'error' ? ' error' : '');
+    el.innerHTML = `<span class="dot${mode === 'loading' ? ' pulse' : ''}"></span>${text}`;
+  }
+
+  async function runOne(key, modelName, headers, promptText, maxTok, temperature, signal) {
+    const outputEl = document.getElementById(`output-${key}`);
+    outputEl.classList.remove('empty');
+    outputEl.textContent = '';
+    setStatus(key, 'generating...', 'loading');
+    const start = performance.now();
+
+    try {
+      const res = await fetch(ENDPOINT, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({
+          prompt: promptText,
+          model: modelName,
+          max_new_tokens: maxTok,
+          temperature: temperature
+        }),
+        signal
+      });
+
+      if (!res.ok) {
+        const errText = await res.text();
+        throw new Error(`HTTP ${res.status} - ${errText.slice(0, 200)}`);
+      }
+
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      let gotAnyText = false;
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        const chunk = decoder.decode(value, { stream: true });
+        if (chunk) {
+          gotAnyText = true;
+          outputEl.textContent += chunk;
+        }
+      }
+
+      if (!gotAnyText) outputEl.textContent = '(model returned an empty response)';
+      const elapsed = ((performance.now() - start) / 1000).toFixed(1);
+      setStatus(key, `done - ${elapsed}s`, null);
+      return elapsed;
+    } catch (err) {
+      if (err.name === 'AbortError') {
+        setStatus(key, 'stopped', null);
+        return null;
+      }
+      outputEl.textContent = outputEl.textContent || 'Request failed. See status above for details.';
+      setStatus(key, err.message || 'request failed', 'error');
+      return null;
+    }
+  }
+
+  function toggleRunning(isRunning) {
+    runBtn.style.display = isRunning ? 'none' : 'inline-block';
+    stopBtn.style.display = isRunning ? 'inline-block' : 'none';
+  }
+
+  async function runInference() {
+    const question = promptInput.value.trim();
+    if (!question) {
+      promptInput.focus();
+      return;
+    }
+
+    const headers = { 'Content-Type': 'application/json' };
+    if (API_KEY) headers['x-api-key'] = API_KEY;
+
+    const maxTok = parseInt(maxTokens.value, 10);
+    const temperature = parseFloat(temp.value);
+
+    const basePrompt = question;
+    const finetunedPrompt = buildAlpacaPrompt(question);
+
+    controllers = [new AbortController(), new AbortController()];
+    toggleRunning(true);
+    latency.textContent = '';
+
+    const [baseElapsed, finetunedElapsed] = await Promise.all([
+      runOne('base', 'base', headers, basePrompt, maxTok, temperature, controllers[0].signal),
+      runOne('finetuned', 'finetuned', headers, finetunedPrompt, maxTok, temperature, controllers[1].signal)
+    ]);
+
+    if (baseElapsed && finetunedElapsed) {
+      latency.textContent = `base ${baseElapsed}s - finetuned ${finetunedElapsed}s`;
+    }
+
+    toggleRunning(false);
+  }
+
+  function stopInference() {
+    controllers.forEach(c => c.abort());
+    toggleRunning(false);
+  }
+
+  runBtn.addEventListener('click', runInference);
+  stopBtn.addEventListener('click', stopInference);
+  promptInput.addEventListener('keydown', (e) => {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') runInference();
+  });
+</script>
+</body>
+</html>
